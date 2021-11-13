@@ -11,11 +11,16 @@ _CONSTRAINTS = {
 class Ingredient(models.Model):
     name = models.CharField(max_length=50, unique=True)
     description = models.CharField(max_length=100, null=True)
+    
+    # Saved for better future understanding
     unit_measurement = models.PositiveSmallIntegerField(
         choices=UnitMeasurement.choices(),
         editable=False
     )
+    # Used to specific values of weight or volume
     amount = models.SmallIntegerField(editable=False)
+    
+    # Cost price - Max value is 9999.99
     price = models.DecimalField(max_digits=6, decimal_places=2)
 
     class Meta:
@@ -23,26 +28,25 @@ class Ingredient(models.Model):
 
     @classmethod
     def create(cls, data):
-        obj = cls()
-        obj.name = data.get('name')
-        obj.unit_measurement = data.get('unit_measurement')
-        obj.amount = data.get('amount')
-        obj.price = data.get('price')
-
-        if 'description' in data:
-            obj.description = data.get('description')
-
+        ''' data = { name, unit_measurement, amount, price, description? } '''
+        obj = cls(**data)
         obj.save()
 
         return obj
 
     def update(self, data):
+        ''' data = { name, amount, price, description? } '''
+        
         self.name = data.get('name')
         self.amount = data.get('amount')
         self.price = data.get('price')
-
+        
+        # Change description if has in data, 
+        # or dont have in data and obj has description, change to None
         if 'description' in data:
             self.description = data.get('description')
+        elif self.description:
+            self.description = None
 
         self.save()
 
