@@ -19,6 +19,7 @@ class UpdatePriceListTestCase(TestCase):
         new.update(self.data)
 
         self.assertNotEqual(new.price, old.price)
+        
         old_price = float(old.price)
         self.assertEqual(new.price, round(old_price * 1.1, 2))
 
@@ -28,6 +29,4 @@ class UpdatePriceListTestCase(TestCase):
         new = PriceList.objects.get(id=1)
         new.update(self.desc_data)
 
-        self.assertNotEqual(new.price, old.price)
-        old_price = float(old.price)
-        self.assertEqual(new.price, round(old_price * 1.1, 2))
+        self.assertEqual(new.description, self.desc_data.get('description'))
