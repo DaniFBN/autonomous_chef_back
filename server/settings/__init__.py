@@ -17,7 +17,6 @@ _base_settings = [
     'components/caches.py',
     'components/common.py',
     'components/database.py',
-    # 'components/rq.py',  # redis and redis-queue
     'components/logging.py',
 
     # Select the right env:

@@ -12,7 +12,7 @@ from server.settings.components import config
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    config.get('DOMAIN_NAME'),
+    config('DOMAIN_NAME'),
 ]
 
 # Password validation
