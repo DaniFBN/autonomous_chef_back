@@ -13,9 +13,10 @@ from os import environ
 environ.setdefault('DJANGO_ENV', 'development')
 _ENV = environ['DJANGO_ENV']
 
-_base_settings = [
+_base_settings = (
     'components/caches.py',
     'components/common.py',
+    'components/csp.py',
     'components/database.py',
     'components/logging.py',
 
@@ -24,7 +25,7 @@ _base_settings = [
 
     # Optionally override some settings:
     optional('environments/local.py'),
-]
+)
 
 # Include settings:
 include(*_base_settings)
