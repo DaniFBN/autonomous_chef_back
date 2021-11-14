@@ -54,15 +54,13 @@ class SaleRecipe(models.Model):
     @property
     def profit(self):
         """ Calculate the profit of this sale """
-        final_cost = self.__calc_cost()
-
-        return self.price - final_cost
+        return self.price - self.__calc_cost()
 
     @property
     def profit_percentage(self):
         """ How much percentage of profit """
         x = self.__calc_cost() * 100
-        profit_percentage = x / self.price
+        profit_percentage = x / float(self.price)
 
         return profit_percentage
 
@@ -76,4 +74,4 @@ class SaleRecipe(models.Model):
 
     def __calc_cost(self):
         """ Calculate the cost of the entire sale """
-        return self.item_cost * self.amount
+        return float(round(self.item_cost * self.amount, 2))
