@@ -1,6 +1,6 @@
 from django.db import models
 
-from apps.sales.classes.recipe_model import Recipe
+from apps.recipes.classes.recipe_model import Recipe
 
 
 class SaleRecipe(models.Model):

@@ -21,8 +21,9 @@ SECRET_KEY = config.get('DJANGO_SECRET_KEY')
 
 INSTALLED_APPS: Tuple[str, ...] = (
     # Your apps go here:
-    'apps.sales',
     'apps.storage',
+    'apps.recipes',
+    'apps.sales',
 
     # Default django apps:
     'django.contrib.auth',

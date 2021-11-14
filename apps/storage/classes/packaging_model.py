@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator
 from django.db import models
 
 from apps.storage.utils.enums.unit_measurement import UnitMeasurement
@@ -11,18 +12,19 @@ _CONSTRAINTS = {
 class Packaging(models.Model):
     name = models.CharField(max_length=50, unique=True)
     description = models.CharField(max_length=100, null=True)
-    
-    # Used to specific values of weight or volume
-    amount = models.SmallIntegerField(editable=False)
-    
+
     # Saved for better future understanding
     unit_measurement = models.PositiveSmallIntegerField(
         choices=UnitMeasurement.choices(),
         editable=False
     )
-    
+
+    # Used to specific values of weight or volume
+    amount = models.PositiveSmallIntegerField(editable=False)
+
     # Cost price - Max value is 9999.99
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    price = models.DecimalField(max_digits=6, decimal_places=2, validators=[
+                                MinValueValidator('0.01')])
 
     class Meta:
         constraints = (models.CheckConstraint(**_CONSTRAINTS),)
@@ -51,3 +53,7 @@ class Packaging(models.Model):
         self.save()
 
         return self
+
+    @property
+    def unit_cost(self):
+        return float(self.price) / self.amount
