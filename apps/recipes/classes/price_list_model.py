@@ -9,6 +9,7 @@ class PriceList(models.Model):
 
     recipe = models.ForeignKey(
         Recipe, on_delete=models.PROTECT, editable=False)
+    description = models.CharField(max_length=100, null=True)
 
     # Sale price with validator to only positive number only
     price = models.DecimalField(max_digits=6, decimal_places=2,
@@ -26,9 +27,19 @@ class PriceList(models.Model):
     def update(self, data):
         """ data = { price : float } """
         self.price = data.get('price')
+
+        if 'description' in data:
+            self.description = data.get('description')
+        elif self.description:
+            self.description = None
+
         self.save()
 
         return self
+
+    @property
+    def cost(self):
+        return self.recipe.cost
 
     @property
     def profit(self):
