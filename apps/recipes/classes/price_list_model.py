@@ -3,15 +3,32 @@ from django.db import models
 
 from apps.recipes.classes.recipe_model import Recipe
 
+
 class PriceList(models.Model):
     """ A Price list to remember the standard values """
 
-    recipe = models.ForeignKey(Recipe, on_delete=models.PROTECT)
-    
+    recipe = models.ForeignKey(
+        Recipe, on_delete=models.PROTECT, editable=False)
+
     # Sale price with validator to only positive number only
     price = models.DecimalField(max_digits=6, decimal_places=2,
                                 validators=[MinValueValidator(0.01)]
                                 )
+
+    @classmethod
+    def create(cls, data):
+        """ data = { price : float, recipe: Recipe } """
+        obj = cls(**data)
+        obj.save()
+
+        return obj
+
+    def update(self, data):
+        """ data = { price : float } """
+        self.price = data.get('price')
+        self.save()
+
+        return self
 
     @property
     def profit(self):
@@ -21,7 +38,7 @@ class PriceList(models.Model):
     @property
     def profit_percentage(self):
         """ Calculate a profit percentage with current values """
-        x = self.recipe.cost * 100
+        x = self.profit * 100
         profit_percentage = x / self.price
 
         return profit_percentage
