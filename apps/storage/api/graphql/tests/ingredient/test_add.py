@@ -4,13 +4,13 @@ from graphene.test import Client
 from apps.storage.api.graphql.schema import schema
 
 
-class ApiPackagingAddTestCase(TestCase):
+class ApiIngredientAddTestCase(TestCase):
 
     def setUp(self):
         self.client = Client(schema)
         self.query = '''
-          mutation addPackaging{
-            addPackaging(
+          mutation addIngredient{
+            addIngredient(
               input: {
                 name: "Name"
                 description: "Desc"
@@ -29,8 +29,8 @@ class ApiPackagingAddTestCase(TestCase):
         '''
 
         self.desc_query = '''
-          mutation addPackaging{
-            addPackaging(
+          mutation addIngredient{
+            addIngredient(
               input: {
                 name: "Name"
                 unitMeasurement: 1
@@ -51,9 +51,9 @@ class ApiPackagingAddTestCase(TestCase):
         response = self.client.execute(self.query)
 
         self.assertIn('data', response)
-        self.assertIn('addPackaging', response['data'])
+        self.assertIn('addIngredient', response['data'])
 
-        data = response['data']['addPackaging']
+        data = response['data']['addIngredient']
         self.assertEqual(data['name'], 'Name')
         self.assertEqual(data['description'], 'Desc')
         self.assertEqual(data['unitMeasurement'], 1)
@@ -63,5 +63,5 @@ class ApiPackagingAddTestCase(TestCase):
     def test_add_description_success(self):
         response = self.client.execute(self.desc_query)
 
-        data = response['data']['addPackaging']
+        data = response['data']['addIngredient']
         self.assertEqual(data['description'], None)

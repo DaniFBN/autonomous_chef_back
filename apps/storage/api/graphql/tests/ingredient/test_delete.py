@@ -6,15 +6,15 @@ from apps.storage.api.graphql.schema import schema
 from apps.utils.helpers_gql_tests import GqlDeleteNotFoundTestMixin
 
 
-class ApiPackagingDeleteTestCase(TestCase, GqlDeleteNotFoundTestMixin):
+class ApiIngredientDeleteTestCase(TestCase, GqlDeleteNotFoundTestMixin):
 
     def setUp(self):
-        baker.make('storage.Packaging')
+        baker.make('storage.Ingredient')
 
         self.client = Client(schema)
         self.query = '''
-          mutation deletePackaging{
-            deletePackaging(  
+          mutation deleteIngredient{
+            deleteIngredient(  
               id: 1
             ){
               ok
@@ -23,10 +23,10 @@ class ApiPackagingDeleteTestCase(TestCase, GqlDeleteNotFoundTestMixin):
         '''
         
         # GqlDeleteNotFoundTestMixin dependencies
-        self.mutation = 'deletePackaging'
+        self.mutation = 'deleteIngredient'
         self.not_found_query = '''
-          mutation deletePackaging{
-            deletePackaging(  
+          mutation deleteIngredient{
+            deleteIngredient(  
               id: 2
             ){
               ok
@@ -38,7 +38,7 @@ class ApiPackagingDeleteTestCase(TestCase, GqlDeleteNotFoundTestMixin):
         response = self.client.execute(self.query)
 
         self.assertIn('data', response)
-        self.assertIn('deletePackaging', response['data'])
+        self.assertIn('deleteIngredient', response['data'])
 
-        data = response['data']['deletePackaging']
+        data = response['data']['deleteIngredient']
         self.assertEqual(data['ok'], True)
