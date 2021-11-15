@@ -15,15 +15,15 @@ class Ingredient(models.Model):
 
     # Saved for better future understanding
     unit_measurement = models.PositiveSmallIntegerField(
-        choices=UnitMeasurement.choices(),
-        editable=False
+        choices=UnitMeasurement.choices()
     )
+
     # Used to specific values of weight or volume
-    amount = models.PositiveSmallIntegerField(editable=False)
+    amount = models.PositiveSmallIntegerField()
 
     # Cost price - Max value is 9999.99
     price = models.DecimalField(max_digits=6, decimal_places=2, validators=[
-                                MinValueValidator('0.01')])
+                                MinValueValidator(0.01)])
 
     class Meta:
         constraints = (models.CheckConstraint(**_CONSTRAINTS),)
@@ -56,4 +56,7 @@ class Ingredient(models.Model):
 
     @classmethod
     def get_by_id(cls, value):
-        return cls.objects.get(id=value)
+        obj = cls.objects.filter(id=value)
+        if obj:
+            return obj.first()
+        return None
