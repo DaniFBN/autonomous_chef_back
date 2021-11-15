@@ -53,3 +53,7 @@ class Ingredient(models.Model):
         self.save()
 
         return self
+
+    @classmethod
+    def get_by_id(cls, value):
+        return cls.objects.get(id=value)

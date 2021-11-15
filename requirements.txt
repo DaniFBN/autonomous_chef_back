@@ -16,6 +16,7 @@ django-permissions-policy==4.5.0
 django-querycount==0.7.0
 django-split-settings==1.1.0
 django-test-migrations==1.1.0
+djangorestframework==3.12.4
 graphene==2.1.9
 graphene-django==2.15.0
 graphql-core==2.3.2
