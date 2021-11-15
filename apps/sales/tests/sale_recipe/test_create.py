@@ -22,7 +22,7 @@ class CreateSaleRecipeTestCase(TestCase):
 
         self.assertIn('id', response.__dict__)
         price_list = self.data.get('recipe')
-        
+
         self.assertEqual(response.profit, float(price_list.cost) * 2)
         self.assertEqual(response.profit_percentage, 50)
 
