@@ -5,6 +5,8 @@ class GqlDeleteNotFoundTestMixin():
 
         self.assertIn('data', response)
         self.assertIn(self.mutation, response['data'])
-
         data = response['data'][self.mutation]
-        self.assertEqual(data['ok'], False)
+
+        self.assertEqual(data, None)
+
+        self.assertIn('errors', response)

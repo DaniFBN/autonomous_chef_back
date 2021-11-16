@@ -56,7 +56,4 @@ class Ingredient(models.Model):
 
     @classmethod
     def get_by_id(cls, value):
-        obj = cls.objects.filter(id=value)
-        if obj:
-            return obj.first()
-        return None
+        return cls.objects.get(id=value)

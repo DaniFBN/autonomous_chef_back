@@ -19,3 +19,6 @@ class IngredientAllSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return super().create(validated_data)
+
+    def is_valid(self, raise_exception=True):
+        return super().is_valid(raise_exception=raise_exception)

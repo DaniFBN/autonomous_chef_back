@@ -4,6 +4,7 @@ from graphene_django.rest_framework.mutation import SerializerMutation
 from apps.storage.api.rest.ingredients.all_serializer import IngredientAllSerializer
 from apps.storage.api.rest.ingredients.update_serializer import IngredientUpdateSerializer
 from apps.storage.classes.ingredient_model import Ingredient
+from apps.utils.api_gql_exceptions import NotFoundGqlException
 
 
 class IngredientCreateMutation(SerializerMutation):
@@ -27,12 +28,11 @@ class IngredientDeleteMutation(graphene.Mutation):
         id = graphene.ID(required=True)
 
     def mutate(self, info, **kwargs):
-        ok = False
-
-        id = kwargs.get('id')
-        obj = Ingredient.get_by_id(id)
-        if obj:
+        try:
+            id = kwargs.get('id')
+            obj = Ingredient.get_by_id(id)
             obj.delete()
-            ok = True
 
-        return IngredientDeleteMutation(ok=ok)
+            return IngredientDeleteMutation(ok=True)
+        except:
+            raise NotFoundGqlException()

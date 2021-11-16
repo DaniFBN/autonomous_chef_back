@@ -56,10 +56,7 @@ class Packaging(models.Model):
     @property
     def unit_cost(self):
         return float(self.price) / self.amount
-    
+
     @classmethod
     def get_by_id(cls, value):
-        obj = cls.objects.filter(id=value)
-        if obj:
-            return obj.first()
-        return None
+        return cls.objects.get(id=value)
